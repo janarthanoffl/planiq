@@ -10,6 +10,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Table (name = "users")
@@ -42,6 +43,21 @@ public class User {
     @Column(nullable = false)
     @Builder.Default
     private String role = "USER";
+
+    @Builder.Default
+    private Boolean enabled = true;
+
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Goal> goals;
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Task> tasks;
+
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL,orphanRemoval = true)
+    private List<Note> notes;
+
 
     @CreationTimestamp
     @Column(updatable = false)
